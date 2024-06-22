@@ -115,7 +115,7 @@ export const PipelineUI = () => {
           onDragOver={onDragOver}
           onInit={setReactFlowInstance}
           nodeTypes={nodeTypes}
-          //handleStyle={handleStyle}
+          handleStyle={handleStyle}
           propOptions={propOptions}
           snapGrid={[gridSize, gridSize]}
           connectionLineType={"smoothstep"}

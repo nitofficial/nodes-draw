@@ -17,14 +17,16 @@ export const DraggableNode = ({ type, label }) => {
     display: "flex",
     alignItems: "center",
     borderRadius: "8px",
-    backgroundColor: "#B1AFFF",
+    border: "2px solid #6e31f375",
     justifyContent: "center",
     flexDirection: "column",
-    boxShadow: `0 0 10px #BC7DFF`,
-    borderRadius: "5px",
+    "&:hover": {
+      boxShadow: "0 0px 20px #BC7DFF", // Apply box-shadow only on hover
+    },
+    borderRadius: "15px",
   });
   const Label = styled("span")({
-    color: "#7752FE",
+    color: "#6e31f3",
   });
   return (
     <DraggableButton

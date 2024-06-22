@@ -14,8 +14,10 @@ const Root = styled(Paper)(({ theme }) => ({
   width: "auto",
   height: "auto",
   margin: "none",
-  boxShadow: `0 0 10px #BC7DFF`,
-  borderRadius: "5px",
+  "&:hover": {
+    boxShadow: "0 0 20px #BC7DFF", // Apply box-shadow only on hover
+  },
+  borderRadius: "15px",
 }));
 
 const HandleStyle = styled("div")({
@@ -26,14 +28,16 @@ const HandleStyle = styled("div")({
 const Heading = styled(Typography)(({ theme }) => ({
   marginBottom: theme.spacing(1),
   borderBottom: "1px solid #AD88C6",
-  padding: theme.spacing(1),
+  padding: "10px",
 }));
 const Label = styled(Typography)(({ theme }) => ({
   marginBottom: theme.spacing(1),
+  fontSize: "16px",
+  color: "#555",
 }));
 
 const SelectContainer = styled("div")(({ theme }) => ({
-  padding: theme.spacing(1),
+  padding: "20px",
   display: "flex",
   flexDirection: "column",
   gap: theme.spacing(1),
@@ -41,6 +45,8 @@ const SelectContainer = styled("div")(({ theme }) => ({
 
 const defaultHandleStyle = {
   background: "#7752FE",
+  height: "10px",
+  width: "10px",
 };
 export const BaseNode = ({ id, data, nodeType, children, handlePositions }) => {
   const [currName, setCurrName] = useState(
@@ -75,13 +81,15 @@ export const BaseNode = ({ id, data, nodeType, children, handlePositions }) => {
       </Heading>
       {(nodeType === "input" || nodeType === "output") && (
         <SelectContainer>
-          <div style={{ display: "flex", flexDirection: "column" }}>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+          >
             <div style={{ display: "flex", flexDirection: "column" }}>
-              <Label variant="body1">Name:</Label>
+              <Label variant="body1">Name</Label>
               <TextField value={currName} onChange={handleNameChange} />
             </div>
             <div style={{ display: "flex", flexDirection: "column" }}>
-              <Label variant="body1">Type:</Label>
+              <Label variant="body1">Type</Label>
               <FormControl variant="outlined" fullWidth>
                 <Select
                   labelId={`${id}-type-label`}

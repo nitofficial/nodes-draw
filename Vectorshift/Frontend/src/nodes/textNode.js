@@ -14,6 +14,8 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
 }));
 const Label = styled(Typography)(({ theme }) => ({
   marginBottom: theme.spacing(1),
+  fontSize: "16px",
+  color: "#555",
 }));
 export const TextNode = (props) => {
   const [currText, setCurrText] = useState(props.data?.text || "{{input}}");
@@ -50,7 +52,7 @@ export const TextNode = (props) => {
     <BaseNode {...props} nodeType="text" handlePositions={handlePositions}>
       <div>
         <FormControl fullWidth variant="outlined">
-          <Label>Text:</Label>
+          <Label>Text</Label>
           <StyledTextField
             inputRef={textRef}
             value={currText}
