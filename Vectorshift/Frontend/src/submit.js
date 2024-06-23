@@ -20,7 +20,7 @@ const StyledButton = styled("div")({
   justifyContent: "center",
   flexDirection: "column",
   "&:hover": {
-    boxShadow: "0 0px 10px #BC7DFF", // Apply box-shadow only on hover
+    boxShadow: "0 0px 10px #BC7DFF",
   },
   borderRadius: "15px",
 });
@@ -85,7 +85,7 @@ const SubmitButton = () => {
         onClose={handleClose}
         sx={{
           "& .MuiDialog-paper": {
-            minWidth: "250px", // Adjust the width as needed
+            minWidth: "250px",
             maxWidth: "100%",
           },
         }}

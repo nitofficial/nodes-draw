@@ -157,7 +157,6 @@ export const BaseNode = ({ id, data, nodeType, children, handlePositions }) => {
   const handleRemove = () => {
     removeNode(id);
   };
-  console.log({ handlePositions });
   return (
     <Root>
       {handlePositions.map((handle, index) => (
