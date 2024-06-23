@@ -21,14 +21,14 @@ const StyledTextField = styled(TextField)({
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
-      border: "1px solid #BEBEBE", // Default border color
+      border: "1px solid #BEBEBE",
     },
     "&:hover fieldset": {
-      border: "1px solid #707070", // Border color on hover
+      border: "1px solid #707070",
     },
     "&.Mui-focused fieldset": {
-      border: "1px solid #707070", // Border color on focus
-      boxShadow: "none", // Remove box shadow on focus
+      border: "1px solid #707070",
+      boxShadow: "none",
     },
   },
 });

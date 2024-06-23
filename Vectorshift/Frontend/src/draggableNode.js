@@ -21,7 +21,7 @@ export const DraggableNode = ({ type, label }) => {
     justifyContent: "center",
     flexDirection: "column",
     "&:hover": {
-      boxShadow: "0 0px 10px #BC7DFF", // Apply box-shadow only on hover
+      boxShadow: "0 0px 10px #BC7DFF",
     },
     borderRadius: "15px",
   });

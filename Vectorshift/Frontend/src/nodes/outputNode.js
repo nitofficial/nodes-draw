@@ -4,7 +4,7 @@ import { Position } from "reactflow";
 export const OutputNode = (props) => {
   const handlePositions = [
     {
-      id: "input-1",
+      id: "outputnode-input-1",
       type: "target",
       position: Position.Left,
     },

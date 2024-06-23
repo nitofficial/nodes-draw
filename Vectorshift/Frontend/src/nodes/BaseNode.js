@@ -10,7 +10,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
-import { useStore } from "../store"; // Import the store
+import { useStore } from "../store";
 
 const Root = styled(Paper)(({ theme }) => ({
   margin: theme.spacing(1),
@@ -19,16 +19,13 @@ const Root = styled(Paper)(({ theme }) => ({
   height: "auto",
   margin: "none",
   "&:hover": {
-    boxShadow: "0 0 20px #BC7DFF", // Apply box-shadow only on hover
+    boxShadow: "0 0 20px #BC7DFF",
   },
   borderRadius: "15px",
   position: "relative",
 }));
 
 const RemoveIcon = styled(IconButton)({
-  position: "absolute",
-  top: "12px",
-  right: "12px",
   padding: 5,
   color: "#AD88C6",
   background: "#fff",
@@ -84,10 +81,13 @@ const HandleStyle = styled("div")({
   background: "#AD88C6",
 });
 
-const Heading = styled(Typography)(({ theme }) => ({
+const Heading = styled("div")(({ theme }) => ({
   marginBottom: theme.spacing(1),
   borderBottom: "1px solid #AD88C6",
   padding: "10px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
 }));
 
 const Label = styled(Typography)(({ theme }) => ({
@@ -104,16 +104,21 @@ const SelectContainer = styled("div")(({ theme }) => ({
 }));
 
 const StyledTextField = styled(TextField)({
+  width: "100%",
+  "& .MuiInputBase-input": {
+    resize: "none",
+    overflow: "hidden",
+  },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
-      border: "1px solid #BEBEBE", // Default border color
+      border: "1px solid #BEBEBE",
     },
     "&:hover fieldset": {
-      border: "1px solid #707070", // Border color on hover
+      border: "1px solid #707070",
     },
     "&.Mui-focused fieldset": {
-      border: "1px solid #707070", // Border color on focus
-      boxShadow: "none", // Remove box shadow on focus
+      border: "1px solid #707070",
+      boxShadow: "none",
     },
   },
 });
@@ -152,7 +157,7 @@ export const BaseNode = ({ id, data, nodeType, children, handlePositions }) => {
   const handleRemove = () => {
     removeNode(id);
   };
-
+  console.log({ handlePositions });
   return (
     <Root>
       {handlePositions.map((handle, index) => (
@@ -160,17 +165,19 @@ export const BaseNode = ({ id, data, nodeType, children, handlePositions }) => {
           key={index}
           type={handle.type}
           position={handle.position}
-          id={`${id}-${handle.id}`}
+          id={`${handle.id}`}
           style={{ ...handle.style, ...defaultHandleStyle }}
           className={HandleStyle}
         />
       ))}
-      <Heading variant="h6">
-        {nodeType.charAt(0).toUpperCase() + nodeType.slice(1)}
+      <Heading>
+        <Typography variant="h6" paddingLeft={"10px"}>
+          {nodeType.charAt(0).toUpperCase() + nodeType.slice(1)}
+        </Typography>
+        <RemoveIcon onClick={handleRemove} size="small">
+          <CloseIcon sx={{ height: "15px", width: "15px" }} />
+        </RemoveIcon>
       </Heading>
-      <RemoveIcon onClick={handleRemove} size="small">
-        <CloseIcon sx={{ height: "15px", width: "15px" }} />
-      </RemoveIcon>
 
       {(nodeType === "input" || nodeType === "output") && (
         <SelectContainer>

@@ -58,8 +58,6 @@ export const PipelineUI = () => {
           event.dataTransfer.getData("application/reactflow")
         );
         const type = appData?.nodeType;
-
-        // check if the dropped element is valid
         if (typeof type === "undefined" || !type) {
           return;
         }
@@ -105,7 +103,7 @@ export const PipelineUI = () => {
         onDragOver={onDragOver}
         onInit={(instance) => setReactFlowInstance(instance)}
         nodeTypes={nodeTypes}
-        propOptions={propOptions}
+        proOptions={propOptions}
         snapGrid={[gridSize, gridSize]}
         connectionLineType="simplebezier"
         connectionLineStyle={connectionLineStyle}

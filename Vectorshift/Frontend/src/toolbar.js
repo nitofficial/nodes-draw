@@ -1,5 +1,3 @@
-// toolbar.js
-
 import React from "react";
 import { DraggableNode } from "./draggableNode";
 
