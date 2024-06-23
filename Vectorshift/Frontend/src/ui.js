@@ -1,7 +1,3 @@
-// ui.js
-// Displays the drag-and-drop UI
-// --------------------------------------------------
-
 import { useState, useRef, useCallback } from "react";
 import ReactFlow, { Controls, Background, MiniMap } from "reactflow";
 import { useStore } from "./store";
@@ -10,6 +6,7 @@ import { InputNode } from "./nodes/inputNode";
 import { LLMNode } from "./nodes/llmNode";
 import { OutputNode } from "./nodes/outputNode";
 import { TextNode } from "./nodes/textNode";
+import { FormNode } from "./nodes/formNode";
 
 import "reactflow/dist/style.css";
 
@@ -20,6 +17,7 @@ const nodeTypes = {
   llm: LLMNode,
   customOutput: OutputNode,
   text: TextNode,
+  form: FormNode,
 };
 
 const selector = (state) => ({
@@ -82,50 +80,40 @@ export const PipelineUI = () => {
         addNode(newNode);
       }
     },
-    [reactFlowInstance]
+    [reactFlowInstance, getNodeID, addNode]
   );
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
   }, []);
-  const handleStyle = {
-    width: "12px",
-    height: "12px",
-    backgroundColor: "#FFA500", // Orange color
-    border: "2px solid #FFFFFF", // White border
-    borderRadius: "50%", // Rounded shape
-    cursor: "pointer", // Pointer cursor
-  };
+
   const connectionLineStyle = {
-    color: "#FFA500",
-    backgroundColor: "#FFA500",
+    stroke: "#6e31f375",
+    strokeWidth: 2,
   };
 
   return (
-    <>
-      <div ref={reactFlowWrapper} style={{ width: "100wv", height: "70vh" }}>
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          onDrop={onDrop}
-          onDragOver={onDragOver}
-          onInit={setReactFlowInstance}
-          nodeTypes={nodeTypes}
-          handleStyle={handleStyle}
-          propOptions={propOptions}
-          snapGrid={[gridSize, gridSize]}
-          connectionLineType={"smoothstep"}
-          connectionLineStyle={connectionLineStyle}
-        >
-          <Background color="#aaa" gap={gridSize} />
-          <Controls />
-          <MiniMap />
-        </ReactFlow>
-      </div>
-    </>
+    <div ref={reactFlowWrapper} style={{ width: "100vw", height: "70vh" }}>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        onDrop={onDrop}
+        onDragOver={onDragOver}
+        onInit={(instance) => setReactFlowInstance(instance)}
+        nodeTypes={nodeTypes}
+        propOptions={propOptions}
+        snapGrid={[gridSize, gridSize]}
+        connectionLineType="simplebezier"
+        connectionLineStyle={connectionLineStyle}
+      >
+        <Background color="#aaa" gap={gridSize} />
+        <Controls />
+        <MiniMap />
+      </ReactFlow>
+    </div>
   );
 };

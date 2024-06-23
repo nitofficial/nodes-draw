@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Position } from "reactflow";
 import { BaseNode } from "./BaseNode";
 import { TextField, FormControl } from "@mui/material";
@@ -17,10 +17,20 @@ const Label = styled(Typography)(({ theme }) => ({
   fontSize: "16px",
   color: "#555",
 }));
+
 export const TextNode = (props) => {
   const [currText, setCurrText] = useState(props.data?.text || "{{input}}");
   const [handles, setHandles] = useState([]);
+
   const textRef = useRef(null);
+
+  useEffect(() => {
+    const initialHandle = {
+      id: `${props.id}-default-handle`,
+      position: { top: "25px" }, // Adjust position as needed
+    };
+    setHandles([initialHandle]);
+  }, [props.id]);
 
   const handleTextChange = (e) => {
     const text = e.target.value;
@@ -32,14 +42,14 @@ export const TextNode = (props) => {
     );
     setHandles(
       variables.map((variable, index) => ({
-        id: `${props.id}-${variable}`,
+        id: `${props.id}-${variable}-${index + 1}`,
         position: { top: `${(index + 1) * 25}px` },
       }))
     );
   };
 
   const handlePositions = [
-    ...handles.map((handle, index) => ({
+    ...handles.map((handle) => ({
       type: "target",
       position: Position.Left,
       id: handle.id,
