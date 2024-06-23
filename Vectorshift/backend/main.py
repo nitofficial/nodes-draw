@@ -36,13 +36,10 @@ class Pipeline(BaseModel):
     edges: List[Edge]
 
 
-@app.post('/pipelines/parse')  # Ensure it's POST method
+@app.post('/pipelines/parse')
 def parse_pipeline(pipeline: Pipeline):
     num_nodes = len(pipeline.nodes)
     num_edges = len(pipeline.edges)
-
-
-    # Create a directed graph
     G = nx.DiGraph()
     for node in pipeline.nodes:
         G.add_node(node.id)
