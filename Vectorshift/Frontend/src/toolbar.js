@@ -7,6 +7,10 @@ const nodeTypes = [
   { type: "customOutput", label: "Output" },
   { type: "text", label: "Text" },
   { type: "form", label: "Form" },
+  { type: "customInput", label: "Form Input" },
+  { type: "customOutput", label: "Output Node" },
+  { type: "llm", label: "LLM2" },
+  { type: "lll", label: "LLM3" },
 ];
 
 export const PipelineToolbar = () => {
