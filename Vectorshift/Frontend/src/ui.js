@@ -2,23 +2,15 @@ import { useState, useRef, useCallback } from "react";
 import ReactFlow, { Controls, Background, MiniMap } from "reactflow";
 import { useStore } from "./store";
 import { shallow } from "zustand/shallow";
-import { InputNode } from "./nodes/inputNode";
-import { LLMNode } from "./nodes/llmNode";
-import { OutputNode } from "./nodes/outputNode";
 import { TextNode } from "./nodes/textNode";
-import { FormNode } from "./nodes/formNode";
+import { FormComponent } from "./components/formComponent";
+import { BaseNode } from "./nodes/BaseNode";
+import { getHandlePositions } from "./utils";
 
 import "reactflow/dist/style.css";
 
 const gridSize = 20;
 const propOptions = { hideAttribution: true };
-const nodeTypes = {
-  customInput: InputNode,
-  llm: LLMNode,
-  customOutput: OutputNode,
-  text: TextNode,
-  form: FormNode,
-};
 
 const selector = (state) => ({
   nodes: state.nodes,
@@ -29,6 +21,44 @@ const selector = (state) => ({
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
 });
+
+const nodeTypes = {
+  customInput: (props) => (
+    <BaseNode
+      {...props}
+      nodeType="input"
+      handlePositions={getHandlePositions("input")}
+    />
+  ),
+  llm: (props) => (
+    <BaseNode
+      {...props}
+      nodeType="llm"
+      handlePositions={getHandlePositions("llm")}
+    >
+      <div>
+        <span>This is a LLM.</span>
+      </div>
+    </BaseNode>
+  ),
+  customOutput: (props) => (
+    <BaseNode
+      {...props}
+      nodeType="output"
+      handlePositions={getHandlePositions("output")}
+    />
+  ),
+  text: TextNode,
+  form: (props) => (
+    <BaseNode
+      {...props}
+      nodeType="form"
+      handlePositions={getHandlePositions("form")}
+    >
+      <FormComponent />
+    </BaseNode>
+  ),
+};
 
 export const PipelineUI = () => {
   const reactFlowWrapper = useRef(null);
@@ -92,7 +122,7 @@ export const PipelineUI = () => {
   };
 
   return (
-    <div ref={reactFlowWrapper} style={{ width: "100vw", height: "70vh" }}>
+    <div ref={reactFlowWrapper} style={{ width: "100vw", height: "80vh" }}>
       <ReactFlow
         nodes={nodes}
         edges={edges}

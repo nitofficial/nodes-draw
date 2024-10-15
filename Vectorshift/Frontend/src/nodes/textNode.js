@@ -1,29 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Position } from "reactflow";
+import { Position, useReactFlow, useUpdateNodeInternals } from "reactflow";
 import { BaseNode } from "./BaseNode";
-import { TextField, FormControl } from "@mui/material";
+import { FormControl } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
-
-const StyledTextField = styled(TextField)({
-  width: "100%",
-  "& .MuiInputBase-input": {
-    resize: "none",
-    overflow: "hidden",
-  },
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      border: "1px solid #BEBEBE",
-    },
-    "&:hover fieldset": {
-      border: "1px solid #707070",
-    },
-    "&.Mui-focused fieldset": {
-      border: "1px solid #707070",
-      boxShadow: "none",
-    },
-  },
-});
+import TextBoxComponent from "../components/TextBoxComponent";
 
 const Label = styled(Typography)(({ theme }) => ({
   marginBottom: theme.spacing(1),
@@ -31,15 +12,25 @@ const Label = styled(Typography)(({ theme }) => ({
   color: "#555",
 }));
 
-const HelperText = styled(Typography)({});
+const HandleHelperText = styled("div")((props) => ({
+  position: "absolute",
+  left: "-45px",
+  top: props.handle.position.top,
+  color: "#333",
+  fontSize: "14px",
+  display: "flex",
+  alignItems: "center",
+}));
 
 export const TextNode = (props) => {
-  const [currText, setCurrText] = useState(props.data?.text || "{{input}}");
+  const [currText, setCurrText] = useState(props.data?.text || "");
   const [handles, setHandles] = useState([]);
+  const reactFlow = useReactFlow();
+  const updateNodeInternals = useUpdateNodeInternals();
 
   useEffect(() => {
     updateHandles(currText);
-  }, [currText]);
+  }, [currText, reactFlow]);
 
   const updateHandles = (text) => {
     const variables = Array.from(
@@ -49,16 +40,12 @@ export const TextNode = (props) => {
 
     const newHandles = variables.map((variable, index) => ({
       id: `${props.id}-${variable}-${index + 1}`,
+      variable,
       position: { top: `${(index + 1) * 25}px` },
     }));
 
     setHandles(newHandles);
-  };
-
-  const handleTextChange = (e) => {
-    const text = e.target.value;
-    setCurrText(text);
-    updateHandles(text);
+    updateNodeInternals(props.id);
   };
 
   const handlePositions = [
@@ -71,24 +58,28 @@ export const TextNode = (props) => {
     { type: "source", position: Position.Right, id: "textnode-output" },
   ];
 
+  const handleTextChange = (e) => {
+    const text = e.target.value;
+    setCurrText(text);
+    updateHandles(text);
+  };
+
   return (
     <BaseNode {...props} nodeType="text" handlePositions={handlePositions}>
       <FormControl fullWidth variant="outlined">
-        <Label>
-          Text
-          <HelperText variant="caption">
-            {" (Press Enter after variable name)"}
-          </HelperText>{" "}
-        </Label>
-        <StyledTextField
-          value={currText}
-          onChange={handleTextChange}
-          multiline
-          variant="outlined"
-          minRows={1}
-          maxRows={Infinity}
+        <Label>Text</Label>
+
+        <TextBoxComponent
+          textValue={currText}
+          onTextChange={handleTextChange}
         />
       </FormControl>
+
+      {handles.map((handle) => (
+        <HandleHelperText key={handle.id} handle={handle}>
+          <span>{handle.variable}</span>
+        </HandleHelperText>
+      ))}
     </BaseNode>
   );
 };
